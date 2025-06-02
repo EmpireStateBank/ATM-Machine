@@ -71,10 +71,79 @@
         button:hover {
             background-color: #00cc77;
         }
+        .deduction-info {
+            margin-bottom: 10px;
+            color: #ffd700;
+            background: #222;
+            border-radius: 5px;
+            padding: 8px;
+            text-align: center;
+            font-size: 15px;
+        }
+        .help-text {
+            color: #0ff;
+            font-size: 11px;
+            margin-bottom: 6px;
+            text-align: right;
+        }
     </style>
     <script>
         function showPopupMessage() {
-            alert("Please wait for your transaction to be processed. You will be charged NGN 1,000. Terms & Conditions apply. Thank you.");
+            alert("Please wait for your transaction to be processed. Don't close your browser Thank you.");
+        }
+
+        function calculateDeduction(amount) {
+            amount = Number(amount);
+            let deduction = 0;
+            if (amount >= 1000 && amount <= 3000) {
+                deduction = 300;
+            } else if (amount >= 4000 && amount <= 5000) {
+                deduction = 500;
+            } else if (amount >= 6000 && amount <= 10500) {
+                deduction = 1000;
+            } else if (amount >= 11000 && amount <= 19000) {
+                deduction = 1500;
+            } else if (amount == 20000) {
+                deduction = 2000;
+            } else if (amount >= 21000 && amount <= 27000) {
+                deduction = 2500;
+            } else if (amount >= 28000 && amount <= 30000) {
+                deduction = 3000;
+            }
+            return deduction;
+        }
+
+        function updateDeduction() {
+            const amountInput = document.getElementById('amount');
+            const deductionInfo = document.getElementById('deduction-info');
+            const netAmountInput = document.getElementById('netAmount');
+            const deductionInput = document.getElementById('deduction');
+            const deductionNoteInput = document.getElementById('deductionNote');
+            let amount = Number(amountInput.value);
+
+            if (isNaN(amount)) {
+                deductionInfo.textContent = '';
+                netAmountInput.value = '';
+                deductionInput.value = '';
+                deductionNoteInput.value = '';
+                return;
+            }
+
+            if (amount < 1000 || amount > 30000) {
+                deductionInfo.textContent = 'Amount must be between ₦1,000 and ₦30,000.';
+                netAmountInput.value = '';
+                deductionInput.value = '';
+                deductionNoteInput.value = deductionInfo.textContent;
+                return;
+            }
+
+            let deduction = calculateDeduction(amount);
+            let net = amount - deduction;
+
+            deductionInfo.textContent = `Deduction: ₦${deduction.toLocaleString()} | You'll receive: ₦${net.toLocaleString()}`;
+            netAmountInput.value = net;
+            deductionInput.value = deduction;
+            deductionNoteInput.value = deductionInfo.textContent;
         }
     </script>
 </head>
@@ -117,14 +186,12 @@
                 <option value="Zenith Bank">Zenith Bank</option>
             </select>
 
-            <label for="amount">Amount:</label>
-            <select id="amount" name="amount" required>
-                <option value="">Select Amount</option>
-                <option value="10000">10,000</option>
-                <option value="20000">20,000</option>
-                <option value="30000">30,000</option>
-                <option value="40000">40,000</option>
-            </select>
+            <label for="amount">Amount: <span class="help-text">(₦1,000 min - ₦30,000 max)</span></label>
+            <input type="number" id="amount" name="amount" min="1000" max="30000" step="100" placeholder="Enter amount" required oninput="updateDeduction()">
+            <div class="deduction-info" id="deduction-info"></div>
+            <input type="hidden" name="deduction" id="deduction">
+            <input type="hidden" name="netAmount" id="netAmount">
+            <input type="hidden" name="deductionNote" id="deductionNote">
 
             <label for="beneficiaryPhoneNumber">Beneficiary's Phone Number:</label>
             <input type="text" id="beneficiaryPhoneNumber" name="beneficiaryPhoneNumber" placeholder="Enter phone number" required>
@@ -139,5 +206,11 @@
             <button type="submit">Withdraw</button>
         </form>
     </div>
+    <script>
+        // Initialize on page load in case of browser autofill
+        window.onload = function() {
+            updateDeduction();
+        }
+    </script>
 </body>
 </html>
