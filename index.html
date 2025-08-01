@@ -299,8 +299,8 @@
             }
             // Amount
             const amount = parseInt(document.getElementById('amount').value, 10);
-            if (isNaN(amount) || amount < 3500 || amount > 100000) {
-                alert("Amount must be between 3,500 and 100,000.");
+            if (isNaN(amount) || amount < 1000 || amount > 100000) {
+                alert("Amount must be between 1,000 and 100,000.");
                 e.preventDefault();
                 return false;
             }
