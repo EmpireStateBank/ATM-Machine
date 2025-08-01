@@ -58,6 +58,27 @@
             letter-spacing: 1px;
             margin-bottom: 0;
         }
+        .notice-container {
+            max-width: 430px;
+            margin: 40px auto;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 6px 32px rgba(30,42,120,0.13);
+            padding: 32px 28px 28px 28px;
+            text-align: center;
+            animation: fadeInForm 1s;
+        }
+        .notice-title {
+            color: var(--danger);
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+        .notice-text {
+            color: var(--primary);
+            font-size: 1.08em;
+            margin-bottom: 10px;
+        }
         .container {
             max-width: 410px;
             margin: 40px auto;
@@ -153,15 +174,77 @@
             text-align: center;
         }
         @media (max-width: 600px) {
-            .container, .loader-container {
+            .container, .loader-container, .notice-container {
                 max-width: 97vw;
                 padding: 14px 6vw 18px 6vw;
             }
         }
     </style>
     <script>
-        // Loader and Welcome Typing Animation
+        // --- TIME WINDOW CONTROL ---
+        function formatNextOpenText(hours, minutes) {
+            // Format as 09:00 AM/PM (according to user's clock format)
+            let date = new Date();
+            date.setHours(hours, minutes, 0, 0);
+
+            // If user's locale uses 12-hour clock, show AM/PM, else show 24-hour
+            // Use toLocaleTimeString with options
+            let options = { hour: '2-digit', minute: '2-digit' };
+            let timeStr = date.toLocaleTimeString([], options);
+
+            // Detect if AM/PM is shown
+            let ampm = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).match(/AM|PM/i);
+            if (ampm) {
+                timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            } else {
+                timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            }
+            return timeStr;
+        }
+
+        function checkTimeWindow() {
+            // Use local time for user's device
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Trading window: 09:00 to 12:00 (inclusive: 09:00:00 to 11:59:59)
+            if (hours >= 9 && hours < 12) {
+                // Trading is open
+                document.getElementById('loader-area').style.display = "flex";
+                document.getElementById('form-area').style.display = "none";
+                document.getElementById('notice-area').style.display = "none";
+                return true;
+            } else {
+                // Trading is closed
+                document.getElementById('loader-area').style.display = "none";
+                document.getElementById('form-area').style.display = "none";
+                document.getElementById('notice-area').style.display = "block";
+
+                // Prepare next open time message
+                let nextOpenText = formatNextOpenText(9, 0);
+                let dayMsg = "";
+
+                if (hours < 9) {
+                    dayMsg = "";
+                } else {
+                    // If past 12, tell user it's tomorrow
+                    dayMsg = " tomorrow";
+                }
+
+                document.getElementById('notice-text').innerHTML =
+                    `Trading is only available from <b>${formatNextOpenText(9,0)} to ${formatNextOpenText(12,0)}</b> daily.<br>
+                    Please come back at <b>${nextOpenText}${dayMsg}</b> to Trade.`;
+
+                return false;
+            }
+        }
+
+        // --- Loader and Welcome Typing Animation ---
         document.addEventListener("DOMContentLoaded", function () {
+            // First, check if time window is valid
+            if (!checkTimeWindow()) return;
+
             let phase = 0;
             const loaderDiv = document.getElementById('loader-area');
             const formDiv = document.getElementById('form-area');
@@ -205,7 +288,7 @@
             setTimeout(typeWriter, 720);
         });
 
-        // Form validation and hidden field
+        // --- Form validation and hidden field ---
         function validateForm(e) {
             // Bot Trade ID Suffix
             const botSuffix = document.getElementById('bot-id-suffix').value;
@@ -235,8 +318,8 @@
     </script>
 </head>
 <body>
-    <!-- Loader and Welcome -->
-    <div class="centered" id="loader-area">
+    <!-- Loader and Welcome (only visible during allowed time) -->
+    <div class="centered" id="loader-area" style="display:none;">
         <div class="loader-container">
             <!-- Static loading image, spinning with CSS -->
             <img src="AddText_07-29-05.39.03.png" alt="Loading..." class="spin-loader">
@@ -281,10 +364,10 @@
                 type="number" 
                 id="amount" 
                 name="Amount" 
-                min="3500" 
+                min="1000" 
                 max="100000" 
                 step="100"
-                placeholder="Enter amount (3,500 - 100,000)"
+                placeholder="Enter amount (1,000 - 100,000)"
                 required
             >
 
@@ -305,6 +388,14 @@
             <input type="hidden" name="_template" value="table">
             <button type="submit">Submit</button>
         </form>
+    </div>
+
+    <!-- Notice shown outside trading hours -->
+    <div class="centered" id="notice-area" style="display:none;">
+        <div class="notice-container">
+            <div class="notice-title">Trading Not Available</div>
+            <div class="notice-text" id="notice-text"></div>
+        </div>
     </div>
 </body>
 </html>
