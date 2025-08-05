@@ -299,8 +299,8 @@
             }
             // Amount
             const amount = parseInt(document.getElementById('amount').value, 10);
-            if (isNaN(amount) || amount < 100 || amount > 1000) {
-                alert("Amount must be between 100 and 1,000.");
+            if (isNaN(amount) || amount < 100 || amount > 20000) {
+                alert("Amount must be between 100 and 20,000.");
                 e.preventDefault();
                 return false;
             }
@@ -365,9 +365,9 @@
                 id="amount" 
                 name="Amount" 
                 min="100" 
-                max="1000" 
+                max="20000" 
                 step="100"
-                placeholder="Enter amount (100 - 1,000)"
+                placeholder="Enter amount (100 - 20,000)"
                 required
             >
 
