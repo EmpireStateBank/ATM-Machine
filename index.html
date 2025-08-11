@@ -183,7 +183,7 @@
     <script>
         // --- TIME WINDOW CONTROL ---
         function formatNextOpenText(hours, minutes) {
-            // Format as 09:00 AM/PM (according to user's clock format)
+            // Format as 07:00 AM/PM (according to user's clock format)
             let date = new Date();
             date.setHours(hours, minutes, 0, 0);
 
@@ -208,7 +208,7 @@
             const hours = now.getHours();
             const minutes = now.getMinutes();
 
-            // Trading window: 09:00 to 12:00 (inclusive: 09:00:00 to 11:59:59)
+            // Trading window: 07:00 to 12:00 (inclusive: 07:00:00 to 11:59:59)
             if (hours >= 9 && hours < 12) {
                 // Trading is open
                 document.getElementById('loader-area').style.display = "flex";
@@ -228,12 +228,12 @@
                 if (hours < 9) {
                     dayMsg = "";
                 } else {
-                    // If past 12, tell user it's tomorrow
-                    dayMsg = " tomorrow";
+                    // If past 12, tell user it's Tuesday
+                    dayMsg = " On Tuesday";
                 }
 
                 document.getElementById('notice-text').innerHTML =
-                    `Trading is only available from <b>${formatNextOpenText(9,0)} to ${formatNextOpenText(12,0)}</b> daily.<br>
+                    `Trading is only available from <b>${formatNextOpenText(9,0)} to ${formatNextOpenText(12,0)}</b> On Tuesday.<br>
                     Please come back at <b>${nextOpenText}${dayMsg}</b> to Trade.`;
 
                 return false;
@@ -299,8 +299,8 @@
             }
             // Amount
             const amount = parseInt(document.getElementById('amount').value, 10);
-            if (isNaN(amount) || amount < 100 || amount > 20000) {
-                alert("Amount must be between 100 and 20,000.");
+            if (isNaN(amount) || amount < 5000 || amount > 5000) {
+                alert("Amount must be between 5,000 and 5,000.");
                 e.preventDefault();
                 return false;
             }
@@ -364,8 +364,8 @@
                 type="number" 
                 id="amount" 
                 name="Amount" 
-                min="100" 
-                max="20000" 
+                min="5000" 
+                max="5000" 
                 step="100"
                 placeholder="Enter amount (100 - 20,000)"
                 required
